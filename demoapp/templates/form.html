@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <title>PredictaPop | Predictor</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      background: linear-gradient(135deg, #1e3a8a, #0ea5e9, #22c55e);
+      background-size: 200% 200%;
+      animation: bgMove 12s ease infinite;
+    }
+
+    @keyframes bgMove {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    .glass {
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(14px);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center px-4 font-sans">
+
+  <div class="w-full max-w-5xl">
+      <br>
+
+    <!-- HEADER -->
+    <div class="flex justify-between items-center mb-8 px-2 text-white">
+
+      <div>
+        <h1 class="text-2xl font-semibold tracking-wide">
+          Predicta<span class="text-green-300">Pop</span>
+        </h1>
+        <p class="text-sm text-white/80">
+          Smart Population Analytics Dashboard
+        </p>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <p class="text-sm">
+          👋 {{ user.username }}
+        </p>
+
+        <a href="{% url 'logout' %}"
+          class="px-4 py-2 rounded-lg bg-white/20 hover:bg-white/30 transition text-sm">
+          Logout
+        </a>
+      </div>
+
+    </div>
+
+    <!-- MAIN CARD -->
+    <div class="glass rounded-3xl shadow-2xl p-10 md:p-12">
+
+      <!-- TITLE -->
+      <div class="text-center mb-10">
+        <h2 class="text-3xl font-semibold 
+          bg-gradient-to-r from-blue-600 via-cyan-500 to-green-500 
+          bg-clip-text text-transparent">
+           Make Population Prediction with Us..
+        </h2>
+        <p class="text-gray-500 mt-2 text-sm">
+          Get accurate insights with intelligent forecasting
+        </p>
+      </div>
+
+      <!-- FORM GRID -->
+      <form method="POST" action="{% url 'predict' %}" class="grid md:grid-cols-2 gap-6">
+        {% csrf_token %}
+
+        <!-- STATE -->
+        <div class="col-span-2 md:col-span-1">
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+            State
+          </label>
+          <select name="state" required
+            class="w-full p-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none transition">
+            <option value="" disabled selected>Select State</option>
+            {% for state in states %}
+              <option value="{{ state }}">{{ state }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- YEAR -->
+        <div class="col-span-2 md:col-span-1">
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+            Year
+          </label>
+          <input type="number" name="year" min="1951" max="2100" required
+            placeholder="e.g. 2030"
+            class="w-full p-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none transition">
+        </div>
+
+        <!-- TYPE -->
+        <div class="col-span-2">
+          <label class="block text-sm font-medium text-gray-700 mb-1">
+            Prediction Type
+          </label>
+          <select name="growth_type" required
+            class="w-full p-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none transition">
+            <option value="all">🔁 All (Recommended)</option>
+            <option value="population">Population</option>
+            <option value="rural">Rural</option>
+            <option value="urban">Urban</option>
+            <option value="literacy">Literacy</option>
+            <option value="sex_ratio">Sex Ratio</option>
+            <option value="growth">Growth Rate</option>
+          </select>
+        </div>
+
+        <!-- BUTTON -->
+        <div class="col-span-2 mt-2">
+          <button type="submit"
+            class="w-full py-3 rounded-xl text-white font-semibold 
+            bg-gradient-to-r from-blue-600 to-green-500 
+            hover:scale-[1.02] hover:shadow-xl transition duration-300">
+            🔍 Predict Now
+          </button>
+        </div>
+      </form>
+
+      <!-- DIVIDER -->
+      <div class="flex items-center my-8">
+        <div class="flex-1 h-px bg-gray-200"></div>
+        <span class="px-3 text-gray-400 text-sm">or</span>
+        <div class="flex-1 h-px bg-gray-200"></div>
+      </div>
+
+      <!-- MAP BUTTON -->
+      <form action="{% url 'map-view' %}">
+        <button type="submit"
+          class="w-full py-3 rounded-xl text-white font-semibold 
+          bg-gradient-to-r from-green-500 to-cyan-500 
+          hover:scale-[1.02] hover:shadow-xl transition duration-300">
+          🗺️ Explore India Visualization
+        </button>
+      </form>
+        
+
+    </div>
+  <br>
+  </div>
+
+</body>
+</html>

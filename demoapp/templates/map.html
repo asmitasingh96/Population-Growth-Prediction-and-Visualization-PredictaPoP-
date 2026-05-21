@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>India Data Visualization | PredictaPop</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        /* ✅ SAME MOVING BACKGROUND AS FRONT PAGE */
+        body {
+            background: linear-gradient(135deg, #1e3a8a, #0ea5e9, #22c55e);
+            background-size: 200% 200%;
+            animation: bgMove 12s ease infinite;
+        }
+
+        @keyframes bgMove {
+            0% {background-position: 0% 50%;}
+            50% {background-position: 100% 50%;}
+            100% {background-position: 0% 50%;}
+        }
+
+        /* GLASS EFFECT SAME STYLE FAMILY */
+        .glass {
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(14px);
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex items-center justify-center px-4 font-sans">
+      
+
+<div class="w-full max-w-6xl">
+  <br>
+
+    <!-- HEADER (MATCH FRONT STYLE) -->
+    <div class="text-center text-white mb-8">
+        <h1 class="text-3xl md:text-3xl font-semibold tracking-wide">
+            🗺️ Predicta<span class="text-green-300">Pop</span> Visualization
+        </h1>
+        <p class="text-sm text-white/80 mt-1">
+            Smart State-wise Analytics Dashboard
+        </p>
+    </div>
+
+    <!-- MAIN CARD -->
+    <div class="glass rounded-3xl shadow-2xl p-8 md:p-10">
+
+        <!-- FORM (UNCHANGED) -->
+        <form method="get" class="grid md:grid-cols-3 gap-6">
+
+            <!-- STATE -->
+            <div>
+                <label class="font-semibold text-gray-700">Select State</label>
+                <select name="state"
+                    class="w-full mt-2 p-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none">
+                    {% for state in states %}
+                        <option value="{{ state }}" {% if state == selected_state %}selected{% endif %}>
+                            {{ state }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- PRIMARY -->
+            <div>
+                <label class="font-semibold text-gray-700">Primary Parameter</label>
+                <select name="primary"
+                    class="w-full mt-2 p-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none">
+                    {% for col in columns %}
+                        <option value="{{ col }}" {% if col == primary %}selected{% endif %}>
+                            {{ col }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- SECONDARY -->
+            <div>
+                <label class="font-semibold text-gray-700">Secondary Parameter</label>
+                <select name="secondary"
+                    class="w-full mt-2 p-3 rounded-xl border focus:ring-2 focus:ring-green-500 outline-none">
+                    {% for col in columns %}
+                        <option value="{{ col }}" {% if col == secondary %}selected{% endif %}>
+                            {{ col }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- BUTTON -->
+            <div class="md:col-span-3 text-center mt-4">
+                <button type="submit"
+                    class="px-10 py-3 rounded-xl text-white font-semibold 
+                    bg-gradient-to-r from-blue-600 to-green-500 
+                    hover:scale-105 hover:shadow-xl transition">
+                    🚀 Generate Visualization
+                </button>
+            </div>
+
+        </form>
+
+        <!-- OUTPUT -->
+        <div class="mt-10 bg-white rounded-2xl p-4 shadow-xl overflow-x-auto">
+            {{ graph|safe }}
+        </div>
+
+    </div>
+  <br>
+</div>
+
+</body>
+</html>
